@@ -2,15 +2,9 @@ import requests
 import matplotlib.pyplot as plt
 import csv
 from typing import Dict, List
-import operator
+from search_terms import SEARCH_TERMS
 
-import os
-
-# Scopus API Key
-API_KEY = 'cb3d274f6b959c9b9dfeccf09729d66c'
-
-# List of search terms
-search_terms: List[str] = ["Open Data Kit","KoBoToolbox","ona.io","magpi.com","Conseris","Teamscope","SurveyCTO","DHIS2","Logiak","Aam Digital","Enketo Smart Paper","REDCap","betterform.com","Google Forms","LimeSurvey","Formbricks","Nextcloud Forms","GetInput","Typeform","simulai","Tally Forms","SurveyMonkey","Microsoft Forms","Tandem Surveys","Nextcloud Polls","Rapidforms","Chisquares","getsatisfaction.com","Florm","Topgrade Quiz Maker","told.club","Cognito Forms","Crowdsignal","pollly","OhMyForm","UserReport","Yakforms","Tripetto","WoltLab Suite","SurveyLab","Qualtrics","Responster","Paperform","SmartSurvey","Clappia","Drupal Webform","ClassMarker","Getsitecontrol","LiquidFeedback","iSpring QuizMaker","Formstack","Zoho Survey","Getform","SurveyMoz","Kwik Surveys","Webform.com","Survicate","Collect.chat","SoGoSurvey","SurveyPlanet","Journey Surveys","Rational Survey","SurveyNuts","MARE Surveys","Opinionlab","Inqwise","Neurovation.net","Feedback Cat","Zync Free Surveys","PaperSurvey.io","Survio","SurveyGizmo","Refiner.io","Webanketa.com","PollMaker","Engageform","1Flow","eSurv.org","mydatascope.com","Go4Read","CheckMarket","MachForm","Formsort","Spokk","JotForm","EUSurvey","Zoomerang","ChilledLime","Flisti","Facebook Questions","Pollscape","Feedier","BallotBin","CviewSurvey","EventSurvey360","Live Vote","Responsly","123FormBuilder","Enalyzer","Exam.net","ApPHP DataForm","Heedbook","Foresee.com","sentiments.me","Super Simple Survey","boll.co","WonderShare QuizCreator","YesInsights","hellotars","Reactflow","Form2Sheet","Upinion","Nintex Forms","GetFeedback","Eloquant","PriceChecks","PlanSo Forms","youengage","rekommend.io","ngSurvey","Survtapp","LamaPoll","Pollogo","SurveySparrow","Survey Anyplace","Aweform","Formito","Wispform","CusJo","SoSci Survey","eSurveysPro.com","FormCrafts","malvee.com/en/jobber","Wizu","SurveyStatz","CreateSurvey","Sarshomar","SurveyTown","Emojot","Startquestion","interview-efm","Seanote","insta.vote","usario","Sentimy","FormBit","Cisco Webex Experience Management","Callexa Feedback","Pollanimal","ElectionBuddy","QuickTapSurvey","LiveForm","MikeCRM","Free Survey Creator (FSC)","Satsum","polltogo","Retool Forms","ZingPoll","doopoll","survey-ninja","AvidIntelli","Checkbox Survey","Formist.io","CloudRatify","Phonic.ai","AskYourTargetMarket.com","PopSurvey","Wyzerr","Rapidoform","FormsBook","Nexticy Cloud","Obsurvey","Opina: Survey Manager","Insight Stash","iPerceptions","DataWinners","FormNX","E-mail polls by Clubble","pForm","Hubert.ai","SurveyLegend","SurveyMethods","VerticalResponse Online Survey","Examinare Survey Tool","Mobenzi Researcher","Liveworksheets","PandaForm","Pulse Insights","Nicereply","FormDesigner","merren.io","OpenPoll","VaultForm","Sissurvey","Keenforms","AskNicely","Feedback Button","erhebung.de","Swurveys","ApPHP Survey","Quilgo","FormSite","MoboSurvey","Findmind","surveyproject.com","Zapof Forms","JoInTest","QuestionScout","DocsCloud","looping.com","Form 'n Go","MicroPoll","HOTforms123","Captisa Forms","Device Magic","Sales Essistant","WinSurvey","Yought","Amazon Mechanical Turk","participaid","buildarray","responses.me","pnguin.app/agree","Fillout","SurveyJS","MakeForms","Weavely","Yay! Forms","Formsnow","BEEKAI","Nerdy Form","LiberaForms","VFront","Wufoo","Quill Forms","formtools.org","Handypolls","PollUnit","alpina.io","FeedbackSpark","Formester","Form2chat","Pabbly Form Builder","Fabform","neetoForm","biznessmaker","MightyForms","Riley Form Maker","Faary","SurveyNova","Contlo","Whirr","Rational ClearQuest","FormBucket","Superdocu","d21.me","Formitty","Formbox","MangoCRM","Wolf Responsive Form Maker","PHP FormBuilder","Forms.app","freifeld.emphasize.de","Touch Forms Pro","FormKeep","ENKETO ONE","Vanjaro","Formjelly","Sheet Monkey","Fastboss","Inspakt","JotJab","weForms","ClaySys AppForms","BlockSurvey","Peasy Forms","Awesome Forms","Regpack","getformly.com","CompanyHub CRM","FormToEmail","FormPress","Vue Flow Form","Carrrot","ManyContacts","KPI.Com","Jigloo","multiform.com","See Memo","marketablellc.com","Collector AI","K2 blackperl","Zoho Forms","QuestionPro","Youform","Survs","Easydus","iFormBuilder","Akin Persona Tool","FormForAll","AbcSubmit","devolute.cloud","CourseStorm","Fieldboom","getsimpleform.com","Orbitrics","Sysflows","Malcolm.app","Firesales.io","Zurvey.io","Zapflow","Screendoor","Porsline","Eval&GO","Forma (getforma.co)","FORMCLICK","Startup Manager","IBM Forms Experience Builder","EngageVisitor"]
+API_KEY = 'Put API_KEY here'
 
 yearRange = range(1990, 2023)
 
@@ -91,7 +85,6 @@ def main() -> None:
     """
     Main function to fetch publication counts for each term and plot the trend.
     """
-    # Load cached data
     publication_counts: Dict[str, Dict[int, int]] = load_cached_data()
 
     for term in search_terms:
@@ -121,10 +114,6 @@ def main() -> None:
                 plot_data[term] = {}                     
             plot_data[term][year] = publication_counts[term][year]
 
-    # Create trend plot
-
- 
-
     plt.figure(figsize=(10, 6))
     for term, counts in plot_data.items():
         years = list(counts.keys())
@@ -137,10 +126,8 @@ def main() -> None:
     plt.legend(title='Search Terms')
     plt.grid(True)
     
-    # Save the plot as a PDF file
     plt.savefig("publication_trend.pdf", bbox_inches="tight")
 
-    # Show the plot
     plt.show()
 
 if __name__ == "__main__":
